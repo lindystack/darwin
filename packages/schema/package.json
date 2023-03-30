@@ -33,5 +33,8 @@
     "tsconfig": "workspace:*",
     "typescript": "^4.5.2",
     "vitest": "^0.29.3"
+  },
+  "publish": {
+    "access": "public"
   }
 }
