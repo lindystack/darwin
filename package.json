@@ -1,20 +1,19 @@
 {
+  "author": "Andrew Brown",
   "name": "darwin",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "apps/*",
     "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "lint": "rome check ./packages/select/src ./packages/schema/src",
+    "format": "rome format ./packages",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
-    "prettier": "latest",
     "turbo": "latest"
   },
   "engines": {
