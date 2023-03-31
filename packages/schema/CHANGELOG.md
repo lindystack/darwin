@@ -1,4 +1,4 @@
-# @darwin/schema
+# @drwn/schema
 
 ## 0.0.1
 

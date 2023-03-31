@@ -1,4 +1,4 @@
-# @darwin/select
+# @drwn/select
 
 ## 0.0.1
 
@@ -6,4 +6,4 @@
 
 - In the beginning...
 - Updated dependencies
-  - @darwin/schema@0.0.1
+  - @drwn/schema@0.0.1
