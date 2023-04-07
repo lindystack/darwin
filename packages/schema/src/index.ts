@@ -1,2 +1,2 @@
 export * from "./helpers";
-export * from "./types/JsonSchema";
+export * from "./types";
