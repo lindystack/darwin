@@ -1,4 +1,5 @@
-import { ObjectSchema, JsonSchema, ArraySchema, StringSchema } from "../types";
+import { JsonSchema } from "../schemas";
+import { ObjectSchema, ArraySchema, StringSchema } from "../types";
 
 export const properties = function* (
 	schema: ObjectSchema,
@@ -36,8 +37,10 @@ export function has$Rep(
 	);
 }
 
-export function isOptions(schema: JsonSchema): schema is { enum: unknown[] } {
-	return hasEnum(schema);
+export function isOptions(
+	schema: JsonSchema,
+): schema is JsonSchema & { enum: unknown[] } {
+	return JsonSchema.is(schema) && Array.isArray(schema.enum);
 }
 
 // tags should be an array schema with items containing an enum
@@ -122,7 +125,9 @@ export function isRef(schema: JsonSchema): schema is { $ref: string } {
  * Accessor guards
  * -----------------------------------------------------------------------------------------------*/
 
-export function hasEnum(schema: JsonSchema): schema is { enum: unknown[] } {
+export function hasEnum(
+	schema: JsonSchema,
+): schema is JsonSchema & { enum: unknown[] } {
 	return "enum" in schema && Array.isArray(schema.enum);
 }
 
@@ -137,17 +142,21 @@ export function hasProperties(
 	);
 }
 
-export function hasItems(schema: JsonSchema): schema is { items: JsonSchema } {
+export function hasItems(
+	schema: JsonSchema,
+): schema is JsonSchema & { items: JsonSchema } {
 	return "items" in schema;
 }
 
-export function has$Id(schema: JsonSchema): schema is { $id: string } {
+export function has$Id(
+	schema: JsonSchema,
+): schema is JsonSchema & { $id: string } {
 	return "$id" in schema;
 }
 
 export function has$Defs(
 	schema: JsonSchema,
-): schema is { $defs: Record<string, JsonSchema> } {
+): schema is JsonSchema & { $defs: Record<string, JsonSchema> } {
 	return (
 		"$defs" in schema &&
 		typeof schema.$defs === "object" &&
@@ -162,11 +171,13 @@ export function has$Ref(schema: JsonSchema): schema is { $ref: string } {
 export function has(
 	key: string,
 	schema: JsonSchema,
-): schema is { [key: string]: unknown } {
+): schema is JsonSchema & { [key: string]: unknown } {
 	return key in schema;
 }
 
-export function hasTitle(schema: JsonSchema): schema is { title: string } {
+export function hasTitle(
+	schema: JsonSchema,
+): schema is JsonSchema & { title: string } {
 	return (
 		"title" in schema &&
 		typeof schema.title === "string" &&
