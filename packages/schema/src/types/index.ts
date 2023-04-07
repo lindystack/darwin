@@ -7,7 +7,9 @@ export type JsonSchema =
 	| ArraySchema
 	| ObjectSchema
 	| NumberSchema
-	| StringSchema;
+	| IntegerSchema
+	| StringSchema
+	| RefSchema;
 
 export type JsonType =
 	| "array"
@@ -24,7 +26,7 @@ export type JsonType =
 
 interface Primitives {
 	// rome-ignore lint/suspicious/noExplicitAny: we need this one because io-ts types can't `satify` the `JsonSchema` type
-	type: any;
+	type?: any;
 	const?: unknown;
 	enum?: unknown[];
 	format?: string;
@@ -77,6 +79,10 @@ interface CommonSchema
 		Meta,
 		Annotations {}
 
+export interface RefSchema extends CommonSchema {
+	$ref: string;
+}
+
 /* -------------------------------------------------------------------------------------------------
  * Array
  * -----------------------------------------------------------------------------------------------*/
@@ -93,7 +99,9 @@ export interface ArraySpecificFields {
 	minContains?: number; // non-negative integer
 }
 
-export interface ArraySchema extends CommonSchema, ArraySpecificFields {}
+export interface ArraySchema extends CommonSchema, ArraySpecificFields {
+	type: "array";
+}
 
 /* -------------------------------------------------------------------------------------------------
  * Object
@@ -112,9 +120,19 @@ export interface ObjectSpecificFields {
 	dependentSchemas?: Record<string, JsonSchema>;
 }
 
-export interface ObjectSchema extends CommonSchema, ObjectSpecificFields {}
+export interface ObjectSchema extends CommonSchema, ObjectSpecificFields {
+	type: "object";
+	const?: { [key: string]: unknown };
+	enum?: { [key: string]: unknown }[];
+	default?: { [key: string]: unknown };
+	examples?: { [key: string]: unknown }[];
+}
 
-export interface StringSchema extends CommonSchema {
+/* -------------------------------------------------------------------------------------------------
+ * String
+ * -----------------------------------------------------------------------------------------------*/
+
+export interface StringSpecificFields {
 	maxLength?: number; // non-negative integer
 	minLength?: number; // non-negative integer
 	pattern?: string; // regex
@@ -123,10 +141,38 @@ export interface StringSchema extends CommonSchema {
 	contentSchema?: JsonSchema;
 }
 
-export interface NumberSchema extends CommonSchema {
+export interface StringSchema extends CommonSchema, StringSpecificFields {
+	type: "string";
+	const?: string;
+	enum?: string[];
+	default?: string;
+	examples?: string[];
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Number and Integer
+ * -----------------------------------------------------------------------------------------------*/
+
+interface NumberSpecificFields {
 	multipleOf?: number;
 	maximum?: number;
 	exclusiveMaximum?: number;
 	minimum?: number;
 	exclusiveMinimum?: number;
+}
+
+export interface NumberSchema extends CommonSchema, NumberSpecificFields {
+	type: "number";
+	const?: number;
+	enum?: number[];
+	default?: number;
+	examples?: number[];
+}
+
+export interface IntegerSchema extends CommonSchema, NumberSpecificFields {
+	type: "integer";
+	const?: number;
+	enum?: number[];
+	default?: number;
+	examples?: number[];
 }

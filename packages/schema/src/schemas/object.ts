@@ -17,6 +17,8 @@ const ObjectOverrides = t.partial({
 	examples: t.array(t.UnknownRecord),
 });
 
+type foo = t.TypeOf<typeof ObjectOverrides>;
+
 // @internal
 const ObjectSpecificFields: t.Type<ObjectSpecificFields> = t.recursion(
 	"ObjectSpecificFields",

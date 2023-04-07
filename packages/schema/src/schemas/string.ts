@@ -1,6 +1,8 @@
 import * as t from "io-ts";
 
 import { Common } from "./common";
+import { JsonSchema } from "./json";
+import { StringSpecificFields } from "../types";
 
 const StringType = t.type({
 	type: t.literal("string"),
@@ -13,14 +15,18 @@ const StringOverrides = t.partial({
 	examples: t.array(t.string),
 });
 
-const StringSpecificFields = t.partial({
-	maxLength: t.number,
-	minLength: t.number,
-	pattern: t.string,
-	contentEncoding: t.string,
-	contentMediaType: t.string,
-	contentSchema: t.unknown,
-});
+const StringSpecificFields: t.Type<StringSpecificFields> = t.recursion(
+	"StringSpecificFields",
+	() =>
+		t.partial({
+			maxLength: t.number,
+			minLength: t.number,
+			pattern: t.string,
+			contentEncoding: t.string,
+			contentMediaType: t.string,
+			contentSchema: JsonSchema,
+		}),
+);
 
 const StringSchema = t.intersection([
 	StringType,
