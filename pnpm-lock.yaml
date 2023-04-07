@@ -13,10 +13,15 @@ importers:
   packages/schema:
     specifiers:
       '@vitest/ui': ^0.29.3
+      fp-ts: ^2.13.1
+      io-ts: ^2.2.20
       microbundle: ^0.15.1
       tsconfig: workspace:*
       typescript: ^4.5.2
       vitest: ^0.29.3
+    dependencies:
+      fp-ts: 2.13.1
+      io-ts: 2.2.20_fp-ts@2.13.1
     devDependencies:
       '@vitest/ui': 0.29.8
       microbundle: 0.15.1
@@ -2969,6 +2974,10 @@ packages:
       is-callable: 1.2.7
     dev: true
 
+  /fp-ts/2.13.1:
+    resolution: {integrity: sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==}
+    dev: false
+
   /fraction.js/4.2.0:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
@@ -3279,6 +3288,14 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
+
+  /io-ts/2.2.20_fp-ts@2.13.1:
+    resolution: {integrity: sha512-Rq2BsYmtwS5vVttie4rqrOCIfHCS9TgpRLFpKQCM1wZBBRY9nWVGmEvm2FnDbSE2un1UE39DvFpTR5UL47YDcA==}
+    peerDependencies:
+      fp-ts: ^2.5.0
+    dependencies:
+      fp-ts: 2.13.1
+    dev: false
 
   /is-array-buffer/3.0.2:
     resolution: {integrity: sha512-y+FyyR/w8vfIRq4eQcM1EYgSTnmHXPqaF+IgzgraytCFq5Xh8lllDVmAZolPJiZttZLeFSINPYMaEJ7/vWUa1w==}
