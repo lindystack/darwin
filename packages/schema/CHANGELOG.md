@@ -1,5 +1,11 @@
 # @drwn/schema
 
+## 0.0.4
+
+### Patch Changes
+
+- Fix maybeFormat, add resolveType
+
 ## 0.0.3
 
 ### Patch Changes
