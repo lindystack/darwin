@@ -1,4 +1,4 @@
-<h1 align="center">Darwin Select</h1>
+<h1 align="center">🐦 Darwin</h1>
 
 <p align="center">
 a set of libraries for generating sql queries from json schemas
