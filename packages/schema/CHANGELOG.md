@@ -1,5 +1,11 @@
 # @drwn/schema
 
+## 0.0.3
+
+### Patch Changes
+
+- add collection of functions using fp-ts options, expose resolveProperty func (see tests)
+
 ## 0.0.2
 
 ### Patch Changes
