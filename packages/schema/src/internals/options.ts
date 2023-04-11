@@ -97,10 +97,10 @@ export const maybeRefExtended = (schema: JsonSchema): Option<RefSchema> => {
 };
 
 /**
- * properties :: JsonSchema -> Maybe { [key: string]: JsonSchema }
- * @since 0.0.3
+ * maybeProperties :: JsonSchema -> Maybe { [key: string]: JsonSchema }
+ * @internal
  */
-export const properties = (
+const maybeProperties = (
 	schema: JsonSchema,
 ): Option<ObjectSchema["properties"]> => {
 	return pipe(
@@ -138,7 +138,7 @@ const defCurried = (schema: JsonSchema) => (key: string) => def(key)(schema);
 export const prop =
 	(key: string) => (schema: JsonSchema): Option<JsonSchema> => {
 		return pipe(
-			properties(schema),
+			maybeProperties(schema),
 			chain(
 				flow(
 					fromNullable,
