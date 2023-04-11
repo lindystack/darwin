@@ -1,6 +1,12 @@
 import { JsonSchema } from "../schemas";
-import { Option, fromNullable, map as mapOption } from "fp-ts/Option";
+import {
+	Option,
+	fromNullable,
+	map as mapOption,
+	toUndefined,
+} from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
+import { propRec } from "../internals/options";
 
 // This function takes a schema and a $ref, and returns the resolved schema as an Option
 export const resolveRef = (
@@ -12,3 +18,12 @@ export const resolveRef = (
 		mapOption((defs) => defs[ref]),
 	);
 };
+
+/**
+ * resolveProperty :: string -> JsonSchema -> Option<JsonSchema>
+ * @since 0.0.3
+ */
+export const resolveProperty = (
+	key: string,
+	rootSchema: JsonSchema,
+): JsonSchema | undefined => toUndefined(propRec(key, rootSchema));
