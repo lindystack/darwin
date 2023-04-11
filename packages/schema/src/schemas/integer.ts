@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 
 import { Common } from "./common";
+import { IntegerSchema } from "../types";
 
 const IntegerType = t.type({
 	type: t.literal("integer"),
@@ -21,13 +22,13 @@ const IntegerSpecificFields = t.partial({
 	exclusiveMinimum: t.Integer,
 });
 
-const IntegerSchema = t.intersection([
-	IntegerType,
-	IntegerOverrides,
-	IntegerSpecificFields,
-	Common,
-]);
-
-type IntegerSchema = t.TypeOf<typeof IntegerSchema>;
+const IntegerSchema: t.Type<IntegerSchema> = t.recursion("IntegerSchema", () =>
+	t.intersection([
+		IntegerType,
+		IntegerOverrides,
+		IntegerSpecificFields,
+		Common,
+	]),
+);
 
 export { IntegerSchema };

@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 
 import { Common } from "./common";
+import { NumberSchema } from "../types";
 
 const NumberType = t.type({
 	type: t.literal("number"),
@@ -21,13 +22,8 @@ const NumberSpecificFields = t.partial({
 	exclusiveMinimum: t.number,
 });
 
-const NumberSchema = t.intersection([
-	NumberType,
-	NumberOverrides,
-	NumberSpecificFields,
-	Common,
-]);
-
-type NumberSchema = t.TypeOf<typeof NumberSchema>;
+const NumberSchema: t.Type<NumberSchema> = t.recursion("NumberSchema", () =>
+	t.intersection([NumberType, NumberOverrides, NumberSpecificFields, Common]),
+);
 
 export { NumberSchema };
