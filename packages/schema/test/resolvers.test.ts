@@ -28,7 +28,7 @@ describe("resolveProperty", () => {
 			foo: {
 				type: "object",
 				properties: {
-					bar: { type: "string" },
+					bar: { type: "string", $comment: "bar" },
 				},
 			},
 			qux: { $ref: "schemas/qux" },
@@ -54,10 +54,16 @@ describe("resolveProperty", () => {
 	};
 
 	test("a valid key and root schema", () => {
-		it("returns the resolved schema", () => {
-			const result = resolveProperty("foo.bar", schema);
+		const result = resolveProperty("foo.bar", schema);
 
-			expect(result).toEqual({ type: "string" });
+		expect(result).toEqual({ type: "string", $comment: "bar" });
+	});
+
+	test("a nested key with $ref", () => {
+		it("returns the resolved schema", () => {
+			const result = resolveProperty("foo.qux", schema);
+
+			expect(result).toEqual({ type: "string", $comment: "qux" });
 		});
 	});
 
