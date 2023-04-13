@@ -1,4 +1,3 @@
-import { JsonSchema } from "../schemas";
 import {
 	Option,
 	fromNullable,
@@ -6,7 +5,10 @@ import {
 	toUndefined,
 } from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
-import { propRec, maybeType } from "../internals/options";
+
+import { JsonSchema } from "../schemas";
+import { propertyRec } from "../options/property";
+import { maybeType } from "../internals/options";
 
 // This function takes a schema and a $ref, and returns the resolved schema as an Option
 export const resolveRef = (
@@ -26,8 +28,13 @@ export const resolveRef = (
 export const resolveProperty = (
 	key: string,
 	rootSchema: JsonSchema,
-): JsonSchema | undefined => toUndefined(propRec(key, rootSchema));
+): JsonSchema | undefined =>
+	pipe(rootSchema, propertyRec(key.split(".")), toUndefined);
 
+/**
+ * resolveType :: string -> JsonSchema -> Option<string>
+ * @since 0.0.4
+ */
 export const resolveType = (
 	key: string,
 	rootSchema: JsonSchema,
