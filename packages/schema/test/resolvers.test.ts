@@ -36,8 +36,10 @@ describe("resolveProperty", () => {
 		},
 		$defs: {
 			"schemas/qux": {
-				type: "string",
-				$comment: "qux",
+				type: "object",
+				properties: {
+					fred: { type: "string", $comment: "fred" },
+				},
 			},
 			"schemas/quux": {
 				type: "object",
@@ -55,34 +57,25 @@ describe("resolveProperty", () => {
 
 	test("a valid key and root schema", () => {
 		const result = resolveProperty("foo.bar", schema);
-
 		expect(result).toEqual({ type: "string", $comment: "bar" });
 	});
 
 	test("a nested key with $ref", () => {
-		it("returns the resolved schema", () => {
-			const result = resolveProperty("foo.qux", schema);
-
-			expect(result).toEqual({ type: "string", $comment: "qux" });
-		});
+		const result = resolveProperty("qux.fred", schema);
+		expect(result).toEqual({ type: "string", $comment: "fred" });
 	});
 
 	test("an invalid key", () => {
-		it("returns None", () => {
-			const result = resolveProperty("baz", schema);
-
-			expect(result).toBeUndefined();
-		});
+		const result = resolveProperty("baz", schema);
+		expect(result).toBeUndefined();
 	});
 
 	test("a key that resolves to nested object", () => {
-		it("returns the resolved schema", () => {
-			const result = resolveProperty("foo", schema);
+		const result = resolveProperty("foo", schema);
 
-			expect(result).toEqual({
-				type: "object",
-				properties: { bar: { type: "string" } },
-			});
+		expect(result).toEqual({
+			type: "object",
+			properties: { bar: { type: "string", $comment: "bar" } },
 		});
 	});
 
