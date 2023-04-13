@@ -1,6 +1,6 @@
 {
   "name": "@drwn/schema",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Andrew Brown",
   "license": "MIT",
   "type": "module",
@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "fp-ts": "^2.13.1",
+    "fp-ts-std": "^0.16.0",
     "io-ts": "^2.2.20"
   }
 }
