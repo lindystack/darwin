@@ -1,9 +1,6 @@
-import { omit } from "fp-ts-std/Struct";
-import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 
-import { tailRec } from "fp-ts/lib/ChainRec";
 import { JsonSchema } from "../schemas";
 import { ObjectSchema } from "../schemas/object";
 import { def } from "./def";
@@ -86,22 +83,17 @@ export const schemaOrRefSchema =
  */
 export const propertyRec =
 	(keys: string[]) => (schema: JsonSchema): O.Option<JsonSchema> => {
-		const foo = tailRec({ schema, keys }, ({ schema, keys }) => {
-			const [key, ...rest] = keys;
-
-			// @ts-expect-error
-			if (!key) return E.right(pipe(schema, omit(["$defs"])) as JsonSchema);
-
-			return pipe(
-				schema,
-				schemaOrRefSchema(schema),
-				property(key),
-				O.fold(
-					() => E.right(schema),
-					(s) => E.left({ schema: { ...s, $defs: schema.$defs }, keys: rest }),
-				),
-			);
-		});
-
-		return O.fromNullable(foo);
+		const [key, ...rest] = keys;
+		return pipe(
+			schema,
+			schemaOrRefSchema(schema),
+			property(key),
+			O.fold(
+				() => O.none,
+				(s) =>
+					rest?.length
+						? propertyRec(rest)({ ...s, $defs: schema.$defs })
+						: O.some(s),
+			),
+		);
 	};
